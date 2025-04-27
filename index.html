@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Permintaan Maaf ke Sania</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      margin: 0;
+      background-color: #ffe6e6;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<script>
+// Mulai dari pertanyaan pertama
+function mulai() {
+  Swal.fire({
+    title: 'Nama kamu Sania Febrianti?',
+    showDenyButton: true,
+    confirmButtonText: 'Yes',
+    denyButtonText: 'No',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      lanjut2();
+    } else if (result.isDenied) {
+      Swal.fire({
+        title: 'Gausah boong 😜',
+        showConfirmButton: true,
+        confirmButtonText: 'Yes',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then(() => lanjut2());
+    }
+  });
+}
+
+function lanjut2() {
+  Swal.fire({
+    title: 'Apa Luqman nyakitin kamu?',
+    showDenyButton: true,
+    confirmButtonText: 'Yes',
+    denyButtonText: 'No',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      lanjut3();
+    } else if (result.isDenied) {
+      Swal.fire({
+        title: 'Iyakah manis? 😚<br>Kok chatnya nggak dijawab tadi?',
+        showConfirmButton: true,
+        confirmButtonText: 'Yes',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then(() => lanjut3());
+    }
+  });
+}
+
+function lanjut3() {
+  Swal.fire({
+    title: 'Apakah sayangnya ngurang?',
+    html: `
+      <input type="range" id="range" min="0" max="100" value="100" style="width: 80%;">
+      <p id="rangeValue">100%</p>
+    `,
+    showConfirmButton: true,
+    confirmButtonText: 'Next',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    didOpen: () => {
+      const range = Swal.getPopup().querySelector('#range');
+      const rangeValue = Swal.getPopup().querySelector('#rangeValue');
+      range.addEventListener('input', () => {
+        rangeValue.textContent = `${range.value}%`;
+      });
+    }
+  }).then(() => lanjut4());
+}
+
+function lanjut4() {
+  Swal.fire({
+    title: 'Maafin Luqman ya 😔',
+    html: `Emang Luqman becandaannya kelewatan.<br>
+           Luqman emang bego itu.<br>
+           Tapi Luqman sayang kok sama Sania ❤️`,
+    confirmButtonText: 'OK',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+  }).then(() => lanjut5());
+}
+
+function lanjut5() {
+  Swal.fire({
+    title: 'Maafin Luqman?',
+    showDenyButton: true,
+    confirmButtonText: 'Ya',
+    denyButtonText: 'Tidak',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      konfeti();
+    } else if (result.isDenied) {
+      Swal.fire({
+        title: 'Maafin Luqman?',
+        showConfirmButton: true,
+        confirmButtonText: 'Ya',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then(() => konfeti());
+    }
+  });
+}
+
+function konfeti() {
+  Swal.fire({
+    title: 'YAYYYY AYANG MAAFIN LUQMAN 🎉<br>TERIMAKASIH YA ❤️',
+    background: '#fff',
+    color: '#ff4d4d',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    confirmButtonText: '🥰',
+  });
+  startConfetti();
+}
+
+// Konfeti
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
+let pieces = [];
+let numberOfPieces = 150;
+
+function startConfetti() {
+  resizeCanvas();
+  for (let i = 0; i < numberOfPieces; i++) {
+    pieces.push(new Piece(Math.random() * canvas.width, Math.random() * canvas.height));
+  }
+  updateConfetti();
+}
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+function Piece(x, y) {
+  this.x = x;
+  this.y = y;
+  this.size = Math.random() * 5 + 2;
+  this.speedY = Math.random() * 3 + 2;
+  this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+}
+
+function updateConfetti() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  pieces.forEach((p, i) => {
+    p.y += p.speedY;
+    if (p.y > canvas.height) {
+      p.y = 0;
+      p.x = Math.random() * canvas.width;
+    }
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+  });
+  requestAnimationFrame(updateConfetti);
+}
+
+window.addEventListener('resize', resizeCanvas);
+
+// Mulai jalanin scriptnya
+mulai();
+</script>
+
+</body>
+</html>
