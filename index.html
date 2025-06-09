@@ -1,195 +1,246 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Permintaan Maaf ke Sania</title>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Permintaan Maaf Cia</title>
   <style>
-    body {
-      margin: 0;
-      background-color: #ffe6e6;
-      font-family: 'Poppins', sans-serif;
-      overflow: hidden;
+    /* Reset & Center */
+    * {
+      box-sizing: border-box;
     }
-    canvas {
+    body {
+      background: #fff0f5;
+      font-family: "Arial", sans-serif;
+      margin: 0;
+      padding: 20px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #333;
+    }
+    button {
+      background-color: #ff69b4;
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      margin-top: 20px;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #ff1493;
+    }
+    h2 {
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+    /* Popup overlay */
+    #popupOverlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    #popupBox {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      max-width: 300px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    #popupBox p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    #popupBox button {
+      margin: 0 10px;
+      width: 80px;
+    }
+    /* Slider styling */
+    #sliderSection {
+      display: none;
       width: 100%;
-      height: 100%;
-      z-index: 1000;
+      max-width: 320px;
+    }
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 15px;
+      border-radius: 10px;
+      background: linear-gradient(to right, pink 0%, pink 100%);
+      outline: none;
+      margin-top: 10px;
+      transition: background 0.3s ease-in-out;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid red;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    input[type=range]::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid red;
+      cursor: pointer;
+    }
+    .text {
+      margin-top: 12px;
+      font-size: 20px;
+      font-weight: 600;
+      min-height: 28px;
+      color: #b22222;
+    }
+    /* Final apology */
+    #finalSection {
+      display: none;
+      max-width: 350px;
+      font-size: 18px;
+      line-height: 1.4;
+      color: #444;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
 
-<canvas id="confetti"></canvas>
+  <!-- Step 1 -->
+  <div id="step1">
+    <h2>Halo Cia cantik</h2>
+    <button id="next1">Next</button>
+  </div>
 
-<script>
-// Mulai dari pertanyaan pertama
-function mulai() {
-  Swal.fire({
-    title: 'Nama kamu Sania Febrianti?',
-    showDenyButton: true,
-    confirmButtonText: 'Yes',
-    denyButtonText: 'No',
-    allowOutsideClick: false,
-    allowEscapeKey: false,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      lanjut2();
-    } else if (result.isDenied) {
-      Swal.fire({
-        title: 'Gausah boong 😜',
-        showConfirmButton: true,
-        confirmButtonText: 'Yes',
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-      }).then(() => lanjut2());
+  <!-- Step 2 popup -->
+  <div id="popupOverlay">
+    <div id="popupBox">
+      <p id="popupQuestion">Apa kamu Cia beneran?</p>
+      <button id="btnYes">Ya</button>
+      <button id="btnNo">Tidak</button>
+    </div>
+  </div>
+
+  <!-- Mang ea? -->
+  <div id="mangEa" style="display:none;">
+    <h2>Mang ea?</h2>
+    <button id="btnNgambek">Ngambek</button>
+  </div>
+
+  <!-- Step 3 slider -->
+  <div id="sliderSection">
+    <h2>Seberapa marah si sm Luqman?</h2>
+    <input type="range" id="angerSlider" min="0" max="100" value="0" oninput="updateSliderColor()" />
+    <div class="text" id="angerText">hore ga marah :)</div>
+    <button id="next3">Next</button>
+  </div>
+
+  <!-- Step 4 final apology -->
+  <div id="finalSection">
+    <p>
+      Cia aku minta maaf aku ga bermaksud nyakitin hati moengil kamu dengan bercerita masa lalu. Yang aku tau sekarang, kamu paling best dari segala yang aku punya.<br/><br/>
+      Aku gamau kamu sedih dan aku concern sama perasaan kamu yang kesel sama aku. Aku gamau kamu ngambekkkk 😢
+    </p>
+    <audio id="sadSong" src="https://www.bensound.com/bensound-music/bensound-sadness.mp3" preload="auto"></audio>
+  </div>
+
+  <script>
+    // Elements
+    const step1 = document.getElementById("step1");
+    const popupOverlay = document.getElementById("popupOverlay");
+    const popupQuestion = document.getElementById("popupQuestion");
+    const btnYes = document.getElementById("btnYes");
+    const btnNo = document.getElementById("btnNo");
+    const mangEa = document.getElementById("mangEa");
+    const btnNgambek = document.getElementById("btnNgambek");
+    const sliderSection = document.getElementById("sliderSection");
+    const angerSlider = document.getElementById("angerSlider");
+    const angerText = document.getElementById("angerText");
+    const next3 = document.getElementById("next3");
+    const finalSection = document.getElementById("finalSection");
+    const sadSong = document.getElementById("sadSong");
+
+    // Step 1 Next
+    document.getElementById("next1").onclick = () => {
+      step1.style.display = "none";
+      popupOverlay.style.display = "flex";
+    };
+
+    // Popup buttons
+    btnYes.onclick = () => {
+      popupOverlay.style.display = "none";
+      sliderSection.style.display = "block";
+      updateSliderColor();
+    };
+
+    btnNo.onclick = () => {
+      popupQuestion.textContent = "Mang ea?";
+      btnYes.style.display = "none";
+      btnNo.textContent = "Ngambek";
+    };
+
+    btnNo.onclick = () => {
+      popupQuestion.textContent = "Mang ea?";
+      btnYes.style.display = "none";
+      btnNo.textContent = "Ngambek";
+    };
+
+    btnNo.onclick = () => {
+      // Hide popup, show mangEa section
+      popupOverlay.style.display = "none";
+      mangEa.style.display = "block";
+    };
+
+    btnNgambek.onclick = () => {
+      mangEa.style.display = "none";
+      sliderSection.style.display = "block";
+      updateSliderColor();
+    };
+
+    // Update slider color and text
+    function updateSliderColor() {
+      const value = parseInt(angerSlider.value);
+      let text = "";
+
+      if (value <= 10) {
+        text = "hore ga marah :)";
+      } else if (value <= 20) {
+        text = "ihhh marah dikit, its okei 😅";
+      } else if (value <= 50) {
+        text = "marah banget keknya 😢";
+      } else if (value <= 80) {
+        text = "tuhh marah kannnn 😫";
+      } else {
+        text = "huhuhuh marah banget sedih aku 😭";
+      }
+
+      angerText.textContent = text;
+
+      // Dynamic slider gradient pink -> red
+      const percent = value;
+      const bg = `linear-gradient(to right, pink 0%, red ${percent}%, #ccc ${percent}%, #ccc 100%)`;
+      angerSlider.style.background = bg;
     }
-  });
-}
 
-function lanjut2() {
-  Swal.fire({
-    title: 'Apa Luqman nyakitin kamu?',
-    showDenyButton: true,
-    confirmButtonText: 'Yes',
-    denyButtonText: 'No',
-    allowOutsideClick: false,
-    allowEscapeKey: false,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      lanjut3();
-    } else if (result.isDenied) {
-      Swal.fire({
-        title: 'Iyakah manis? 😚<br>Kok chatnya nggak dijawab tadi?',
-        showConfirmButton: true,
-        confirmButtonText: 'Yes',
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-      }).then(() => lanjut3());
-    }
-  });
-}
-
-function lanjut3() {
-  Swal.fire({
-    title: 'Apakah sayangnya ngurang?',
-    html: `
-      <input type="range" id="range" min="0" max="100" value="100" style="width: 80%;">
-      <p id="rangeValue">100%</p>
-    `,
-    showConfirmButton: true,
-    confirmButtonText: 'Next',
-    allowOutsideClick: false,
-    allowEscapeKey: false,
-    didOpen: () => {
-      const range = Swal.getPopup().querySelector('#range');
-      const rangeValue = Swal.getPopup().querySelector('#rangeValue');
-      range.addEventListener('input', () => {
-        rangeValue.textContent = `${range.value}%`;
-      });
-    }
-  }).then(() => lanjut4());
-}
-
-function lanjut4() {
-  Swal.fire({
-    title: 'Maafin Luqman ya 😔',
-    html: `Emang Luqman becandaannya kelewatan.<br>
-           Luqman emang bego itu.<br>
-           Tapi Luqman sayang kok sama Sania ❤️`,
-    confirmButtonText: 'OK',
-    allowOutsideClick: false,
-    allowEscapeKey: false,
-  }).then(() => lanjut5());
-}
-
-function lanjut5() {
-  Swal.fire({
-    title: 'Maafin Luqman?',
-    showDenyButton: true,
-    confirmButtonText: 'Ya',
-    denyButtonText: 'Tidak',
-    allowOutsideClick: false,
-    allowEscapeKey: false,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      konfeti();
-    } else if (result.isDenied) {
-      Swal.fire({
-        title: 'Maafin Luqman?',
-        showConfirmButton: true,
-        confirmButtonText: 'Ya',
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-      }).then(() => konfeti());
-    }
-  });
-}
-
-function konfeti() {
-  Swal.fire({
-    title: 'YAYYYY AYANG MAAFIN LUQMAN 🎉<br>TERIMAKASIH YA ❤️',
-    background: '#fff',
-    color: '#ff4d4d',
-    allowOutsideClick: false,
-    allowEscapeKey: false,
-    confirmButtonText: '🥰',
-  });
-  startConfetti();
-}
-
-// Konfeti
-const canvas = document.getElementById('confetti');
-const ctx = canvas.getContext('2d');
-let pieces = [];
-let numberOfPieces = 150;
-
-function startConfetti() {
-  resizeCanvas();
-  for (let i = 0; i < numberOfPieces; i++) {
-    pieces.push(new Piece(Math.random() * canvas.width, Math.random() * canvas.height));
-  }
-  updateConfetti();
-}
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-
-function Piece(x, y) {
-  this.x = x;
-  this.y = y;
-  this.size = Math.random() * 5 + 2;
-  this.speedY = Math.random() * 3 + 2;
-  this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-}
-
-function updateConfetti() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  pieces.forEach((p, i) => {
-    p.y += p.speedY;
-    if (p.y > canvas.height) {
-      p.y = 0;
-      p.x = Math.random() * canvas.width;
-    }
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fillStyle = p.color;
-    ctx.fill();
-  });
-  requestAnimationFrame(updateConfetti);
-}
-
-window.addEventListener('resize', resizeCanvas);
-
-// Mulai jalanin scriptnya
-mulai();
-</script>
-
+    // Next from slider to final apology
+    next3.onclick = () => {
+      sliderSection.style.display = "none";
+      finalSection.style.display = "block";
+      sadSong.play();
+    };
+  </script>
 </body>
 </html>
